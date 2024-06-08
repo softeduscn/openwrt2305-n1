@@ -1,0 +1,110 @@
+
+config sysmonitor 'sysmonitor'
+	option enable '1'
+	option ddns '1'
+	option ddnslog '0'
+	option ipaddr '192.168.1.110'
+	option netmask '255.255.255.0'
+	option gateway '192.168.1.1'
+	option vpn 'Passwall'
+	option dns 'SmartDNS'
+	option smartdnsPORT '6053'
+	option systime '10'
+	option chkprog '63'
+	option prog '5'
+	option nextvpn '1'
+	option nextvpntime '3'
+	option firmware 'https://github.com/softeduscn/openwrt-n1/releases/download/ARMv8/openwrt_s905d_n1.img.gz'
+	list dnslist '119.29.29.29'
+	list dnslist '223.6.6.6'
+
+config host_list
+	option hostname 'MAST'
+	option hostip '192.168.1.119'
+
+config host_list
+	option hostname 'HOME'
+	option hostip '192.168.1.120'
+
+config ddns_list
+	option hostname 'vpncn.ddnsfree.com'
+	option iptype 'ip6'
+	option url 'http://api.dynu.com/nic/update'
+	option username 'sqmshcn'
+	option password 'dynuddns'
+	option getip 'cat /www/ip6.html'
+	option ipaddr ''
+	
+config ddns_list
+	option hostname 'vpncn.ddnsfree.com'
+	option iptype 'ip4'
+	option url 'http://api.dynu.com/nic/update'
+	option username 'sqmshcn'
+	option password 'dynuddns'
+	option getip 'curl -s --connect-timeout 1 http://members.3322.org/dyndns/getip'
+	option ipaddr ''
+	
+config ddns_list
+	option hostname 'mastcn.ddnsfree.com'
+	option iptype 'ip6'
+	option url 'http://api.dynu.com/nic/update'
+	option username 'sqmshcn'
+	option password 'dynuddns'
+	option getip 'curl -s --connect-timeout 1 http://mast/ip6.html'
+	option ipaddr ''
+	
+config ddns_list
+	option hostname 'mastcn.ddnsfree.com'
+	option iptype 'ip4'
+	option url 'http://api.dynu.com/nic/update'
+	option username 'sqmshcn'
+	option password 'dynuddns'
+	option getip 'curl -s --connect-timeout 1 http://members.3322.org/dyndns/getip'
+	option ipaddr ''
+	
+config ddns_list
+	option hostname 'homecn.ddnsfree.com'
+	option iptype 'ip6'
+	option url 'http://api.dynu.com/nic/update'
+	option username 'sqmshcn'
+	option password 'dynuddns'
+	option getip 'curl -s --connect-timeout 1 http://home/ip6.html'
+	option ipaddr ''
+	
+config ddns_list
+	option hostname 'homecn.ddnsfree.com'
+	option iptype 'ip4'
+	option url 'http://api.dynu.com/nic/update'
+	option username 'sqmshcn'
+	option password 'dynuddns'
+	option getip 'curl -s --connect-timeout 1 http://members.3322.org/dyndns/getip'
+	option ipaddr ''
+	
+config prog_list
+	option program 'update_ddns'
+	option cycle '3600'
+	option path '/usr/share/sysmonitor/sysapp.sh'
+	option first '300'
+	option name '更新DDNS'
+
+config prog_list
+	option program 'checknode'
+	option cycle '600'
+	option path '/usr/share/sysmonitor/sysapp.sh'
+	option first '130'
+	option name '检测VPN节点'
+
+config prog_list
+	option program 'cron_regvpn'
+	option cycle '25'
+	option path '/usr/share/sysmonitor/sysapp.sh'
+	option first '5'
+	option name '注册VPN'
+
+config prog_list
+	option program 'cron_chkvpn'
+	option cycle '30'
+	option path '/usr/share/sysmonitor/sysapp.sh'
+	option first '100'
+	option name '检测VPN'
+

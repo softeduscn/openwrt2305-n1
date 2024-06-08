@@ -1,0 +1,720 @@
+
+config global
+	option node_socks_port '1070'
+	option localhost_proxy '1'
+	option socks_enabled '0'
+	option acl_enable '0'
+	option direct_dns_protocol 'auto'
+	option direct_dns_query_strategy 'UseIP'
+	option remote_dns_query_strategy 'UseIPv4'
+	option close_log '0'
+	option loglevel 'error'
+	option enabled '1'
+	option remote_dns_protocol 'tcp'
+	option remote_dns '8.8.4.4'
+	option node 'nil'
+	option dns_hosts 'cloudflare-dns.com 1.1.1.1
+dns.google.com 8.8.8.8'
+	option remote_fakedns '1'
+	option remote_dns_detour 'remote'
+
+config global_haproxy
+	option balancing_enable '0'
+
+config global_delay
+	option auto_on '0'
+	option start_daemon '1'
+	option start_delay '60'
+
+config global_forwarding
+	option tcp_no_redir_ports 'disable'
+	option udp_no_redir_ports 'disable'
+	option tcp_redir_ports '22,25,53,143,465,587,853,993,995,80,443'
+	option udp_redir_ports '1:65535'
+	option use_nft '1'
+	option accept_icmp '1'
+	option ipv6_tproxy '1'
+	option accept_icmpv6 '1'
+	option tcp_proxy_way 'tproxy'
+
+config global_xray
+	option sniffing '1'
+	option route_only '0'
+	option fragment '0'
+
+config global_other
+	option nodes_ping 'auto_ping tcping'
+
+config global_rules
+	option auto_update '0'
+	option geosite_update '1'
+	option geoip_update '1'
+	option v2ray_location_asset '/usr/share/v2ray/'
+
+config global_app
+	option xray_file '/usr/bin/xray'
+	option brook_file '/usr/bin/brook'
+	option hysteria_file '/usr/bin/hysteria'
+	option singbox_file '/usr/bin/sing-box'
+
+config global_subscribe
+	option filter_keyword_mode '1'
+	list filter_discard_list '过期时间'
+	list filter_discard_list '剩余流量'
+	list filter_discard_list 'QQ群'
+	list filter_discard_list '官网'
+	option ss_aead_type 'shadowsocks-libev'
+
+config global_singbox
+	option sniff_override_destination '1'
+	option geoip_path '/usr/share/singbox/geoip.db'
+	option geoip_url 'https://github.com/SagerNet/sing-geoip/releases/latest/download/geoip.db'
+	option geosite_path '/usr/share/singbox/geosite.db'
+	option geosite_url 'https://github.com/SagerNet/sing-geosite/releases/latest/download/geosite.db'
+
+config nodes 'myshunt'
+	option remarks '分流总节点'
+	option protocol '_shunt'
+	option DirectGame '_direct'
+	option Direct '_direct'
+	option AD 'nil'
+	option BT '_direct'
+	option TVB 'nil'
+	option Proxy '_default'
+	option China '_direct'
+	option QUIC '_blackhole'
+	option UDP 'nil'
+	option domainStrategy 'IPOnDemand'
+	option domainMatcher 'hybrid'
+	option preproxy_enabled '0'
+	option default_node 'JlzlEPz7'
+	option ProxyGame '_default'
+	option Netflix '_default'
+	option OpenAI '_default'
+	option type 'Xray'
+
+config shunt_rules 'DirectGame'
+	option remarks 'DirectGame'
+	option network 'tcp,udp'
+	option domain_list 'api.steampowered.com
+regexp:\.cm.steampowered.com$
+regexp:\.steamserver.net$
+geosite:category-games@cn
+'
+	option ip_list '103.10.124.0/24
+103.10.125.0/24
+103.28.54.0/24
+146.66.152.0/24
+146.66.155.0/24
+153.254.86.0/24
+155.133.224.0/23
+155.133.226.0/24
+155.133.227.0/24
+155.133.230.0/24
+155.133.232.0/24
+155.133.233.0/24
+155.133.234.0/24
+155.133.236.0/23
+155.133.238.0/24
+155.133.239.0/24
+155.133.240.0/23
+155.133.245.0/24
+155.133.246.0/24
+155.133.248.0/24
+155.133.249.0/24
+155.133.250.0/24
+155.133.251.0/24
+155.133.252.0/24
+155.133.253.0/24
+155.133.254.0/24
+155.133.255.0/24
+162.254.192.0/24
+162.254.193.0/24
+162.254.194.0/23
+162.254.195.0/24
+162.254.196.0/24
+162.254.197.0/24
+162.254.198.0/24
+162.254.199.0/24
+185.25.182.0/24
+185.25.183.0/24
+190.217.33.0/24
+192.69.96.0/22
+205.185.194.0/24
+205.196.6.0/24
+208.64.200.0/24
+208.64.201.0/24
+208.64.202.0/24
+208.64.203.0/24
+208.78.164.0/22'
+
+config shunt_rules 'ProxyGame'
+	option remarks 'ProxyGame'
+	option domain_list 'geosite:category-games@!cn
+domain:store.steampowered.com
+'
+
+config shunt_rules 'Direct'
+	option network 'tcp,udp'
+	option remarks 'Direct'
+	option ip_list 'geoip:private
+114.114.114.114
+114.114.115.115
+223.5.5.5
+223.6.6.6
+119.29.29.29
+180.76.76.76
+'
+	option domain_list 'apple.com
+microsoft.com
+dyndns.com
+steamcontent.com
+dl.steam.clngaa.com
+dl.steam.ksyna.com
+st.dl.bscstorage.net
+st.dl.eccdnx.com
+st.dl.pinyuncloud.com
+cdn.mileweb.cs.steampowered.com.8686c.com
+cdn-ws.content.steamchina.com
+cdn-qc.content.steamchina.com
+cdn-ali.content.steamchina.com
+epicgames-download1-1251447533.file.myqcloud.com'
+
+config shunt_rules 'AD'
+	option remarks 'AD'
+	option domain_list 'geosite:category-ads-all'
+	option network 'tcp,udp'
+
+config shunt_rules 'BT'
+	option remarks 'BT'
+	option protocol 'bittorrent'
+	option network 'tcp,udp'
+
+config shunt_rules 'Netflix'
+	option remarks 'Netflix'
+	option network 'tcp,udp'
+	option domain_list 'geosite:netflix'
+
+config shunt_rules 'OpenAI'
+	option remarks 'OpenAI'
+	option domain_list 'geosite:openai'
+
+config shunt_rules 'TVB'
+	option remarks 'TVB'
+	option network 'tcp,udp'
+	option domain_list 'geosite:tvb
+geosite:mytvsuper
+'
+
+config shunt_rules 'Proxy'
+	option network 'tcp,udp'
+	option remarks 'Proxy'
+	option domain_list 'geosite:geolocation-!cn'
+	option ip_list '149.154.160.0/20
+91.108.4.0/22
+91.108.56.0/24
+109.239.140.0/24
+67.198.55.0/24
+8.8.4.4
+8.8.8.8
+208.67.222.222
+208.67.220.220
+1.1.1.1
+1.1.1.2
+1.0.0.1
+9.9.9.9
+149.112.112.112
+2001:67c:4e8::/48
+2001:b28:f23c::/48
+2001:b28:f23d::/48
+2001:b28:f23f::/48
+2001:b28:f242::/48
+2001:4860:4860::8888
+2001:4860:4860::8844
+2606:4700:4700::1111
+2606:4700:4700::1001
+'
+
+config shunt_rules 'China'
+	option remarks 'China'
+	option network 'tcp,udp'
+	option ip_list 'geoip:cn'
+	option domain_list 'geosite:cn'
+
+config shunt_rules 'QUIC'
+	option remarks 'QUIC'
+	option port '443'
+	option network 'udp'
+
+config shunt_rules 'UDP'
+	option remarks 'UDP'
+	option network 'udp'
+
+config subscribe_list
+	option remark 'ssr'
+	option url 'https://sub.o4o.win/api/sub/3612d59e5b27907964de2c57bfa7afd1'
+	option allowInsecure '1'
+	option filter_keyword_mode '5'
+	option ss_aead_type 'global'
+	option auto_update '0'
+	option user_agent 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
+
+config subscribe_list
+	option remark 'vmess'
+	option url 'https://sub.o4o.win/api/sub/3612d59e5b27907964de2c57bfa7afd1?type=2'
+	option allowInsecure '1'
+	option filter_keyword_mode '5'
+	option ss_aead_type 'global'
+	option auto_update '0'
+	option user_agent 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
+
+config subscribe_list
+	option remark 'trojan'
+	option url 'https://sub.o4o.win/api/sub/3612d59e5b27907964de2c57bfa7afd1?type=3'
+	option allowInsecure '1'
+	option filter_keyword_mode '5'
+	option ss_aead_type 'global'
+	option auto_update '0'
+	option user_agent 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
+
+config nodes 'XxVrtKuQ'
+	option type 'SSR'
+	option protocol 'origin'
+	option group 'kingfast基础套餐'
+	option remarks '新加坡'
+	option add_from 'ssr'
+	option method 'none'
+	option password 'kingfast'
+	option port '30714'
+	option address 'sf1.kingss.me'
+	option obfs 'plain'
+	option timeout '60'
+	option add_mode '2'
+
+config nodes 'epwxXX0j'
+	option type 'SSR'
+	option protocol 'origin'
+	option group 'kingfast基础套餐'
+	option remarks '美国'
+	option add_from 'ssr'
+	option method 'none'
+	option password 'kingfast'
+	option port '30714'
+	option address 'sf4.kingss.me'
+	option obfs 'plain'
+	option timeout '60'
+	option add_mode '2'
+
+config nodes '6nb2sSHJ'
+	option type 'SSR'
+	option protocol 'origin'
+	option group 'kingfast基础套餐'
+	option remarks '美国3'
+	option add_from 'ssr'
+	option method 'none'
+	option password 'kingfast'
+	option port '30714'
+	option address 'us3.kingss.me'
+	option obfs 'plain'
+	option timeout '60'
+	option add_mode '2'
+
+config nodes '2ZFDCWiQ'
+	option type 'SSR'
+	option protocol 'origin'
+	option group 'kingfast基础套餐'
+	option remarks '美国4'
+	option add_from 'ssr'
+	option method 'none'
+	option password 'kingfast'
+	option port '30714'
+	option address 'us4.kingss.me'
+	option obfs 'plain'
+	option timeout '60'
+	option add_mode '2'
+
+config nodes 'mNExwr54'
+	option type 'SSR'
+	option protocol 'origin'
+	option group 'kingfast基础套餐'
+	option remarks '英国'
+	option add_from 'ssr'
+	option method 'none'
+	option password 'kingfast'
+	option port '30714'
+	option address 'uk.kingss.me'
+	option obfs 'plain'
+	option timeout '60'
+	option add_mode '2'
+
+config nodes 'y6YpuRdl'
+	option type 'SSR'
+	option protocol 'origin'
+	option group 'kingfast基础套餐'
+	option remarks '加拿大'
+	option add_from 'ssr'
+	option method 'none'
+	option password 'kingfast'
+	option port '30714'
+	option address 'ca.kingss.me'
+	option obfs 'plain'
+	option timeout '60'
+	option add_mode '2'
+
+config nodes 'vxjIctJu'
+	option type 'SSR'
+	option protocol 'origin'
+	option group 'kingfast基础套餐'
+	option remarks '东京'
+	option add_from 'ssr'
+	option method 'none'
+	option password 'kingfast'
+	option port '30714'
+	option address 'jp.kingss.me'
+	option obfs 'plain'
+	option timeout '60'
+	option add_mode '2'
+
+config nodes 'tjwsfP22'
+	option type 'SSR'
+	option protocol 'origin'
+	option group 'kingfast基础套餐'
+	option remarks '东京'
+	option add_from 'ssr'
+	option method 'none'
+	option password 'kingfast'
+	option port '30714'
+	option address 'jp2.kingss.me'
+	option obfs 'plain'
+	option timeout '60'
+	option add_mode '2'
+
+config nodes '1fcd3AS6'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-新加坡'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '1'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'sf1.helloking.win'
+	option transport 'ws'
+
+config nodes 'JlzlEPz7'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-US'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '1'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'sf2.helloking.win'
+	option transport 'ws'
+
+config nodes 'plKLgEvE'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-US2'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '0'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'us2.o5o5o.top'
+	option transport 'ws'
+
+config nodes 'tjORAZg3'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-US3'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '1'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'us3.helloking.win'
+	option transport 'ws'
+
+config nodes '1TIJZ0El'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-US4'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '1'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'us4.helloking.win'
+	option transport 'ws'
+
+config nodes 'lsLr29Cq'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-英国'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '1'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'uk.helloking.win'
+	option transport 'ws'
+
+config nodes 'tqwjfbgV'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-加拿大'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '1'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'ca.helloking.win'
+	option transport 'ws'
+
+config nodes 'bMcovirb'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-日本1'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '1'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'jp.helloking.win'
+	option transport 'ws'
+
+config nodes 'xWvUPKSg'
+	option tls '1'
+	option protocol 'vmess'
+	option add_from 'vmess'
+	option port '443'
+	option ws_path '/user'
+	option remarks '基础套餐-日本2'
+	option add_mode '2'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option timeout '60'
+	option tls_allowInsecure '1'
+	option alter_id '1'
+	option type 'sing-box'
+	option security 'auto'
+	option address 'jp2.helloking.win'
+	option transport 'ws'
+
+config nodes 'pLn3Wu8X'
+	option type 'sing-box'
+	option timeout '60'
+	option tls '0'
+	option security 'auto'
+	option add_from 'vmess'
+	option transport 'ws'
+	option ws_path '/user'
+	option port '11233'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option address 'sf1.helloking.win'
+	option remarks '基础套餐-新加坡-v2'
+	option protocol 'vmess'
+	option alter_id '1'
+	option add_mode '2'
+
+config nodes 'N4Z6Hw4e'
+	option type 'sing-box'
+	option timeout '60'
+	option tls '0'
+	option security 'auto'
+	option add_from 'vmess'
+	option transport 'ws'
+	option ws_path '/user'
+	option port '11233'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option address 'sf2.helloking.win'
+	option remarks '基础套餐-US-v2'
+	option protocol 'vmess'
+	option alter_id '1'
+	option add_mode '2'
+
+config nodes 'k2iu1Jgs'
+	option type 'sing-box'
+	option timeout '60'
+	option tls '0'
+	option security 'auto'
+	option add_from 'vmess'
+	option transport 'ws'
+	option ws_path '/user'
+	option port '11233'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option address 'us3.helloking.win'
+	option remarks '基础套餐-US3-v2'
+	option protocol 'vmess'
+	option alter_id '1'
+	option add_mode '2'
+
+config nodes 'WmO57ocj'
+	option type 'sing-box'
+	option timeout '60'
+	option tls '0'
+	option security 'auto'
+	option add_from 'vmess'
+	option transport 'ws'
+	option ws_path '/user'
+	option port '11233'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option address 'us4.helloking.win'
+	option remarks '基础套餐-US4-v2'
+	option protocol 'vmess'
+	option alter_id '1'
+	option add_mode '2'
+
+config nodes 'Ssbjkkc0'
+	option type 'sing-box'
+	option timeout '60'
+	option tls '0'
+	option security 'auto'
+	option add_from 'vmess'
+	option transport 'ws'
+	option ws_path '/user'
+	option port '11233'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option address 'uk.helloking.win'
+	option remarks '基础套餐-英国-v2'
+	option protocol 'vmess'
+	option alter_id '1'
+	option add_mode '2'
+
+config nodes 'VAXSAHL2'
+	option type 'sing-box'
+	option timeout '60'
+	option tls '0'
+	option security 'auto'
+	option add_from 'vmess'
+	option transport 'ws'
+	option ws_path '/user'
+	option port '11233'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option address 'ca.helloking.win'
+	option remarks '基础套餐-加拿大-v2'
+	option protocol 'vmess'
+	option alter_id '1'
+	option add_mode '2'
+
+config nodes 'cZuZ9qDZ'
+	option type 'sing-box'
+	option timeout '60'
+	option tls '0'
+	option security 'auto'
+	option add_from 'vmess'
+	option transport 'ws'
+	option ws_path '/user'
+	option port '2052'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option address 'jp-v2.helloking.win'
+	option remarks '基础套餐-日本1-v2'
+	option protocol 'vmess'
+	option alter_id '1'
+	option add_mode '2'
+
+config nodes 'zX8WIDBB'
+	option type 'sing-box'
+	option timeout '60'
+	option tls '0'
+	option security 'auto'
+	option add_from 'vmess'
+	option transport 'ws'
+	option ws_path '/user'
+	option port '2052'
+	option uuid 'd7a3580f-6e15-44b5-9c5e-0b86461f490f'
+	option address 'jp2-v2.helloking.win'
+	option remarks '基础套餐-日本2-v2'
+	option protocol 'vmess'
+	option alter_id '1'
+	option add_mode '2'
+
+config nodes '1Afuz1XE'
+	option tls '1'
+	option type 'Trojan-Go'
+	option timeout '60'
+	option fingerprint 'firefox'
+	option tls_allowInsecure '1'
+	option add_from 'trojan'
+	option password 'MTQ2NDdfMzg2NTI'
+	option port '443'
+	option mux '1'
+	option address 'tj.helloking.win'
+	option remarks 'kingfast-tj1-chatgpt'
+	option trojan_transport 'ws'
+	option ws_path '/user'
+	option add_mode '2'
+
+config nodes 'zkOZKyZ4'
+	option tls '1'
+	option type 'Trojan-Go'
+	option timeout '60'
+	option fingerprint 'firefox'
+	option tls_allowInsecure '1'
+	option add_from 'trojan'
+	option password 'MTQ2NDdfMzg2NTI'
+	option port '443'
+	option mux '1'
+	option address 'tj2.helloking.win'
+	option remarks 'kingfast-tj2-chatgpt'
+	option trojan_transport 'ws'
+	option ws_path '/user'
+	option add_mode '2'
+
+config nodes 'bLUrAJRo'
+	option tls '1'
+	option type 'Trojan-Go'
+	option timeout '60'
+	option fingerprint 'firefox'
+	option tls_allowInsecure '1'
+	option add_from 'trojan'
+	option password 'MTQ2NDdfMzg2NTI'
+	option port '443'
+	option mux '1'
+	option address 'tj3.helloking.win'
+	option remarks 'kingfast-tj3-chatgpt'
+	option trojan_transport 'ws'
+	option ws_path '/user'
+	option add_mode '2'
+
