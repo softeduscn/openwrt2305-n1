@@ -15,8 +15,7 @@ config global
 	option trojan_loglevel '4'
 	option dns_shunt 'smartdns'
 	option filter_proxy_ipv6 '1'
-	option advanced_log_feature '0'
-	option tcp_node 'uL6QPHyv'
+	option tcp_node 'u1m9RmKj'
 	option chn_list 'direct'
 	option group_domestic 'china'
 	list smartdns_remote_dns 'tcp://8.8.4.4'
@@ -27,6 +26,8 @@ config global
 	list smartdns_remote_dns 'tls://1.1.1.1'
 	option localhost_proxy '1'
 	option client_proxy '1'
+	option log_tcp '1'
+	option log_udp '1'
 
 config global_haproxy
 	option balancing_enable '0'
@@ -50,9 +51,8 @@ config global_forwarding
 	option tcp_proxy_way 'tproxy'
 
 config global_xray
-	option sniffing '1'
-	option route_only '0'
 	option fragment '0'
+	option sniffing_override_dest '1'
 
 config global_singbox
 	option sniff_override_destination '0'
