@@ -54,6 +54,10 @@ function stat(path, key)
 end
 
 --Set default upload path
+number=luci.sys.exec("ls /tmp/upload/openwrt_s905d_n1.img.gz|wc -l")
+if tonumber(number) == 1 then
+	upload_path = "/tmp/upload/"
+else
 local ROOT_PTNAME = trim(luci.sys.exec("df / | tail -n1 | awk '{print $1}' | awk -F '/' '{print $3}'"))
 if ROOT_PTNAME then
 	if (string.find(ROOT_PTNAME, "mmcblk[0-4]p[1-4]")) then
@@ -69,6 +73,7 @@ else
 	upload_path = "/tmp/upload/"
 end
 
+end
 --Clear the version check log
 luci.sys.exec("echo '' > /tmp/amlogic/amlogic_check_plugin.log && sync >/dev/null 2>&1")
 luci.sys.exec("echo '' > /tmp/amlogic/amlogic_check_kernel.log && sync >/dev/null 2>&1")
