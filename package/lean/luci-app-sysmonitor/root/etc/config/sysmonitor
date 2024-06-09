@@ -14,7 +14,7 @@ config sysmonitor 'sysmonitor'
 	option prog '5'
 	option nextvpn '1'
 	option nextvpntime '3'
-	option firmware 'https://github.com/softeduscn/openwrt-n1/releases/download/ARMv8/openwrt_s905d_n1.img.gz'
+	option firmware 'https://github.com/softeduscn/openwrt2305-n1/releases/download/ARMv8/openwrt_s905d_n1.img.gz'
 	list dnslist '119.29.29.29'
 	list dnslist '223.6.6.6'
 
