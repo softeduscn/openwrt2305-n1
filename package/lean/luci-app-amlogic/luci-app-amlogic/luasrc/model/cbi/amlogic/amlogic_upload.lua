@@ -54,7 +54,8 @@ function stat(path, key)
 end
 
 --Set default upload path
-number=luci.sys.exec("ls /tmp/upload/openwrt_s905d_n1.img.gz|wc -l")
+file=luci.sys.exec("echo $(uci get sysmonitor.sysmonitor.firmware)|-cut -d'/' -f9")
+number=luci.sys.exec("ls /tmp/upload/"..file.."|wc -l")
 if tonumber(number) == 1 then
 	upload_path = "/tmp/upload/"
 else
@@ -148,6 +149,9 @@ for i, f in ipairs(glob(trim(upload_path .. "*"))) do
 		inits[i].size = getSizeStr(attr.size)
 		inits[i].remove = 0
 		inits[i].ipk = false
+		if (string.lower(string.sub(fs.basename(f), -1, -1)) == ".img.gz") then
+			openwrt_firmware_file = true
+		end
 		if (string.lower(string.sub(fs.basename(f), -1, -1)) == ".img.gz") then
 			openwrt_firmware_file = true
 		end
