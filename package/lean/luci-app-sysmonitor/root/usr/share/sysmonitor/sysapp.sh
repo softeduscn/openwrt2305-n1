@@ -1007,10 +1007,10 @@ getddnsip() {
 }
 
 stopdl() {
+	sed -i '/Download Firmware/,$d' $SYSLOG
 	[ -f /tmp/$NAME.log.tmp ] && cp /tmp/$NAME.log.tmp $SYSLOG
 	[ -f /tmp/$NAME.log.tmp ] && rm /tmp/$NAME.log.tmp
 	[ -f /tmp/sysupgrade ] && rm /tmp/sysupgrade
-	#sed -i '/Download Firmware/,$d' $SYSLOG
 	dl=$(pgrep -f $device)
 	[ -n "$dl" ] && kill $dl
 	firmware=$(uci_get_by_name $NAME $NAME firmware)
