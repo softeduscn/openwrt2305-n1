@@ -3821,7 +3821,6 @@ ipset add ipv4_CN 103.138.134.0/23
 ipset add ipv4_CN 103.138.156.0/23
 ipset add ipv4_CN 103.138.208.0/23
 ipset add ipv4_CN 103.138.220.0/23
-ipset add ipv4_CN 103.138.246.0/23
 ipset add ipv4_CN 103.138.248.0/23
 ipset add ipv4_CN 103.139.0.0/23
 ipset add ipv4_CN 103.139.2.0/23

@@ -149,7 +149,7 @@ for i, f in ipairs(glob(trim(upload_path .. "*"))) do
 		inits[i].size = getSizeStr(attr.size)
 		inits[i].remove = 0
 		inits[i].ipk = false
-		
+
 		if (string.lower(string.sub(fs.basename(f), -1, -1)) == ".img.gz") then
 			openwrt_firmware_file = true
 		end
