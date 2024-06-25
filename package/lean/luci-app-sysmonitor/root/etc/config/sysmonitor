@@ -12,7 +12,7 @@ config sysmonitor 'sysmonitor'
 	option systime '10'
 	option chkprog '63'
 	option prog '5'
-	option nextvpn '1'
+	option nextvpn '0'
 	option nextvpntime '3'
 	option firmware 'https://github.com/softeduscn/openwrt2305-n1/releases/download/ARMv8/openwrt_s905d_n1.img.gz'
 	list dnslist '119.29.29.29'
@@ -103,7 +103,7 @@ config prog_list
 
 config prog_list
 	option program 'cron_chkvpn'
-	option cycle '30'
+	option cycle '60'
 	option path '/usr/share/sysmonitor/sysapp.sh'
 	option first '100'
 	option name '检测VPN'

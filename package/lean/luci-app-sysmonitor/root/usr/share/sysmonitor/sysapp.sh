@@ -334,7 +334,7 @@ regvpn
 }
 
 getvpns() {
-	[ ! -f /tmp/vpns ] && echo "0-The VPN is not connect..." > /tmp/vpns
+	[ ! -f /tmp/vpns ] && echo "0-not connect..." > /tmp/vpns
 	cat /tmp/vpns
 }
 
@@ -833,8 +833,8 @@ nextvpn() {
 	hostname=$(uci get system.@system[0].hostname)
 	if [ "$(uci_get_by_name $NAME $NAME nextvpn 0)" == 1 ]; then
 		touch /tmp/nextvpn.sign
-	else
-		touch /tmp/getvpn.sign
+#	else
+#		touch /tmp/getvpn.sign
 	fi
 	vpn=$(uci_get_by_name $NAME $NAME vpn 'NULL')
 	ipaddr=$(ip -o -4 addr list br-lan | cut -d ' ' -f7 | cut -d'/' -f1)
@@ -1096,7 +1096,7 @@ sysbutton() {
 		vpn=$(uci get passwall.@global[0].tcp_node)
 		nodenums=$(cat /tmp/nodeinfo|wc -l)
 		nodenum=$(sed -n /$vpn/= /tmp/nodeinfo)
-		button='<button class="button1" title="Update VPN nodes"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=Updatenode&sys1=&redir=node">UpdateNODE('$nodenum'-'$nodenums')</a></button>'
+		button=$button'<button class="button1" title="Update VPN nodes"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=Updatenode&sys1=&redir=node">UpdateNODE('$nodenum'-'$nodenums')</a></button>'
 		vpns=$(cat /tmp/vpns)
 		type=$(echo ${vpns:1}|cut -d'-' -f2|cut -d' ' -f1|tr A-Z a-z)
 		button=$button' <button class="button1" title="Goto VPN setting"><a href="/cgi-bin/luci/admin/services/'$type'" target="_blank">'$type'-></a></button><BR><BR>'
@@ -1266,6 +1266,15 @@ sysmenu() {
 		;;
 	sysupgrade)
 		sysupgrade
+		;;
+	VPNswitch)
+		nextvpn=$(uci_get_by_name $NAME $NAME nextvpn)
+		if [ "$nextvpn" == 1 ]; then
+			uci_set_by_name $NAME $NAME nextvpn 0
+		else
+			uci_set_by_name $NAME $NAME nextvpn 1
+		fi
+		uci commit sysmonitor
 		;;
 	vpn_node)
 		vpn=$(uci_get_by_name $NAME $NAME vpn NULL)

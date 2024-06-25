@@ -16,9 +16,6 @@ s.anonymous = true
 --o=s:option(Flag,"enable", translate("Enable"))
 --o.rmempty=false
 
-o=s:option(Flag,"nextvpn", translate("Auto switch VPN"))
-o.rmempty=false
-
 --[[
 o = s:option(Value, "vpn", translate("Select VPN"))
 if nixio.fs.access("/etc/init.d/mwan3") then
