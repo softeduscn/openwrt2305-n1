@@ -22,7 +22,6 @@ ipset add ipv6_CN 2001:dd8:1::/48
 ipset add ipv6_CN 2001:dd8:5::/48
 ipset add ipv6_CN 2001:dd8:1a::/48
 ipset add ipv6_CN 2001:dd9::/48
-ipset add ipv6_CN 2001:df0:27e::/48
 ipset add ipv6_CN 2001:df0:423::/48
 ipset add ipv6_CN 2001:df0:9c0::/48
 ipset add ipv6_CN 2001:df0:1bc0::/48
@@ -590,7 +589,9 @@ ipset add ipv6_CN 2401:a6e0::/32
 ipset add ipv6_CN 2401:a720::/32
 ipset add ipv6_CN 2401:a940::/32
 ipset add ipv6_CN 2401:a980::/32
+ipset add ipv6_CN 2401:a9a0::/32
 ipset add ipv6_CN 2401:aa00::/32
+ipset add ipv6_CN 2401:aa20::/32
 ipset add ipv6_CN 2401:aa40::/32
 ipset add ipv6_CN 2401:acc0::/32
 ipset add ipv6_CN 2401:ad40::/32
