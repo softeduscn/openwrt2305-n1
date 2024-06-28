@@ -300,12 +300,7 @@ getvpn() {
 		nextvpn &
 	else
 		echo 0 > /tmp/vpn_status
-		if [ -f /tmp/nextvpn.again ]; then
-			node=$(uci get passwall.@global[0].tcp_node)
-			vpnname=$(uci get passwall.$node.type)' '$(uci get passwall.$node.remarks)
-#			echolog $vpnname" is good."
-			rm /tmp/nextvpn.again
-		fi
+		echo 0 > /tmp/nextvpn.count
 		[ "$(cat /tmp/nodeinfo|wc -l)" == 0 ] && checknode &
 	fi
 	status=$status'-'$vpn
@@ -716,27 +711,30 @@ if [ ! -f /tmp/forceNextVPN ]; then
 	for i in {1..2}; do
 		vpn1=$(getvpn)
 		if [ "${vpn1:0:1}" == 1 ]; then
-			[ -f /tmp/nextvpn.again ] && rm /tmp/nextvpn.again
+			echo 0 > /tmp/nextvpn.count
 			echo ${vpn1:0}
 			exit
 		fi
 	done
-	if [ ! -f /tmp/nextvpn.again ]; then
-		node=$(uci get passwall.@global[0].tcp_node)
-		vpnname=$(uci get passwall.$node.type)' '$(uci get passwall.$node.remarks)
+	nextvpn_count=$(cat /tmp/nextvpn.count)
+	nextvpntime=$(uci_get_by_name $NAME $NAME nextvpntime 3)
+	if [ "$nextvpntime" -gt $nextvpn_count ]; then
+#		node=$(uci get passwall.@global[0].tcp_node)
+#		vpnname=$(uci get passwall.$node.type)' '$(uci get passwall.$node.remarks)
 #		echolog $vpnname" is not good.wiat a moment to check again..."
-		touch /tmp/nextvpn.again
+		nextvpn_count=$((nextvpn_count+1))
+		echo $nextvpn_count > /tmp/nextvpn.count
 		exit
 	else
 		node=$(uci get passwall.@global[0].tcp_node)
 		sed -i "/$node/d" /tmp/goodnode
 		sed -i "/$node/d" /tmp/nodeinfo
 		touch /tmp/firstnode
-		rm /tmp/nextvpn.again
+		echo 0 > /tmp/nextvpn_count
 	fi
 else
 	rm /tmp/forceNextVPN
-	[ -f /tmp/nextvpn.again ] && rm /tmp/nextvpn.again
+	echo 0 > /tmp/nextvpn_count
 fi
 touch /tmp/next_vpn.run
 case $vpn in
