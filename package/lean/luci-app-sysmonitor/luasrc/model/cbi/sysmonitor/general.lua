@@ -52,8 +52,8 @@ s.anonymous = true
 o = s:option(Value, "systime", translate("Check system time(s)"))
 o.rmempty = false
 
---o = s:option(Value, "chkprog", translate("Sysapp daemon time(s)"))
---o.rmempty = false
+o = s:option(Value, "nextvpntime", translate("Switch VPN time(m)"))
+o.rmempty = false
 
 o = s:option(Value, "prog", translate("Run sysapp delay time(s)"))
 o.rmempty = false

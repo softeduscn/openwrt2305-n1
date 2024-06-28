@@ -97,6 +97,9 @@ msgstr "启用VPN切换"
 msgid "Disable switch VPN"
 msgstr "禁止VPN切换"
 
+msgid "Switch VPN time(m)"
+msgstr "切换VPN间隔(分)"
+
 msgid "Check VPN node time(s)"
 msgstr "检测VPN节点间隔(秒)"
 
