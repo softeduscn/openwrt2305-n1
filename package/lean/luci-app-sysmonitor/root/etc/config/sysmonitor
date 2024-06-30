@@ -108,3 +108,10 @@ config prog_list
 	option first '100'
 	option name '检测VPN'
 
+config prog_list
+	option program 'cron_dns'
+	option cycle '90'
+	option path '/usr/share/sysmonitor/sysapp.sh'
+	option first '180'
+	option name '检测dns'
+

@@ -1387,6 +1387,14 @@ logup)
 makehost)
 	makehost
 	;;
+cron_dns)
+	delay_prog cron_dns
+	status=$(ping_url www.baidu.com.cn)
+	if [ $status == 0 ] ; then
+		dns=$(echo $(uci_get_by_name $NAME $NAME dns)|tr A-Z a-z)
+		/etc/init.d/$dns restart
+	fi
+	;;
 cron_regvpn)
 	delay_prog cron_regvpn
 	regvpn
