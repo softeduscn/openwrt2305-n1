@@ -17,6 +17,7 @@ config sysmonitor 'sysmonitor'
 	option firmware 'https://github.com/softeduscn/openwrt2305-n1/releases/download/ARMv8/openwrt_s905d_n1.img.gz'
 	list dnslist '119.29.29.29'
 	list dnslist '223.6.6.6'
+	list dnslist '180.76.76.76'
 
 config host_list
 	option hostname 'MAST'
