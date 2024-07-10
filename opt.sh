@@ -13,8 +13,8 @@ git clone https://github.com/unifreq/openwrt_packit opt/openwrt_packit
 #kpath='https://github.com/ophub/kernel/releases/download/kernel_flippy/'
 kpath='https://github.com/breakings/OpenWrt/releases/download/kernel_stable/'
 kout='opt/openwrt_packit'
-kversion='5.15.162'
-krelease='90+o'
+kversion='5.15.158'
+krelease='89+o'
 wget  --no-check-certificate -c -q $kpath$kversion'.tar.gz' -O $kout'/'$kversion'.tar.gz'
 tar -xvf $kout'/'$kversion'.tar.gz' -C $kout
 mv $kout'/'$kversion $kout'/kernel'
