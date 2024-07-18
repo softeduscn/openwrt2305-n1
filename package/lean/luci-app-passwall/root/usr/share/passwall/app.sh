@@ -1789,6 +1789,7 @@ start() {
 	[ "$ENABLED_DEFAULT_ACL" == 1 ] && source $APP_PATH/helper_${DNS_N}.sh logic_restart
 	start_crontab
 	echolog "运行完成！\n"
+	/usr/share/sysmonitor/sysapp.sh setdns
 }
 
 stop() {

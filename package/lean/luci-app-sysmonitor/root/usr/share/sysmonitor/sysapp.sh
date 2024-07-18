@@ -289,7 +289,7 @@ getvpn() {
 	if [ "$vpn" == 'NULL' ]; then
 		status='0'
 	else	
-		status=$(curl_url 'www.google.com')
+		status=$(ping_url 'www.google.com')
 		[ "$status" != 0 ] && status='1'
 	fi
 	if [ "$status" == 0 ]; then
@@ -353,6 +353,32 @@ start_smartdns() {
 
 setdns() {
 	dns=$(uci_get_by_name $NAME $NAME dns 'NULL')
+	pwtype=$(uci_get_by_name $NAME $NAME passwall 1)
+	if [ "$pwtype" == 1 ]; then
+	case $dns in
+		MosDNS)
+			[ -n "$(pgrep -f smartdns)" ] && /etc/init.d/smartdns stop 2>/dev/null
+			uci set mosdns.config.redirect=1
+			uci set mosdns.config.enabled=1
+			uci commit mosdns
+			reload "mosdns"
+			;;
+		SmartDNS)
+			mosdns_stop
+			uci set smartdns.@smartdns[0].auto_set_dnsmasq='1'
+			port='8653'
+			[ "$(uci get passwall.@global[0].dns_shunt)" == "smartdns" ] && port='5335'
+			start_smartdns $port
+			;;
+		*)
+			mosdns_stop
+			[ -n "$(pgrep -f smartdns)" ] && /etc/init.d/smartdns stop 2>/dev/null
+			uci set dhcp.@dnsmasq[0].port=''
+			uci commit dhcp
+			/etc/init.d/dnsmasq reload
+			;;
+	esac	
+	else
 	case $dns in
 	MosDNS)
 		#[ "$(ps |grep smartdns|grep -v grep|wc -l)" != 0 ] && /etc/init.d/smartdns stop 2>/dev/null
@@ -446,6 +472,7 @@ setdns() {
 		/etc/init.d/dnsmasq reload
 		;;
 	esac
+	fi
 }
 
 mosdns_stop() {
@@ -1182,11 +1209,15 @@ sysbutton() {
 		button=$button' <button class="button1" title="Update VPN nodes"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=Updatenode&sys1=&redir='$redir'">UpdateNODE</a></button>'
 		;;
 	button)
+		group0=''
 		group1=''
 		group2=''
 		group3=''
 		vpn=$(uci_get_by_name $NAME $NAME vpn 'NULL')
 		dns=$(uci_get_by_name $NAME $NAME dns 'NULL')
+		if [ "$dns" != "NULL" ]; then
+			group0=' <button class=button1 title="Close DNS"><a href="/cgi-bin/luci/admin/sys/sysmonitor/sysmenu?sys=close_dns&sys1=&redir=system">CloseDNS</a></button>'
+		fi
 		if [ -f /etc/init.d/smartdns ]; then
 			if [ "$dns" == 'SmartDNS' ]; then
 				#if [ "$(ps |grep smartdns|grep -v grep|wc -l)" == 0 ]; then
@@ -1295,6 +1326,11 @@ sysmenu() {
 		else
 			sed -i s/none/block/g $file
 		fi
+		;;
+	close_dns)
+		uci set sysmonitor.sysmonitor.dns='NULL'
+		uci commit sysmonitor
+		service_dns
 		;;
 	service_smartdns)
 		uci set sysmonitor.sysmonitor.dns='SmartDNS'
