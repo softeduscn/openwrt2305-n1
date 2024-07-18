@@ -1,33 +1,30 @@
 
 config global
-	option enabled '1'
+	option enabled '0'
 	option socks_enabled '0'
-	option udp_node 'tcp'
+	option tcp_node 'nil'
+	option udp_node 'nil'
 	option tcp_node_socks_port '1070'
+	option filter_proxy_ipv6 '1'
+	option dns_shunt 'chinadns-ng'
+	option dns_mode 'tcp'
+	option remote_dns '1.1.1.1'
+	option use_default_dns 'direct'
+	option chinadns_ng_default_tag 'none'
+	option use_direct_list '1'
+	option use_proxy_list '1'
+	option use_block_list '1'
+	option use_gfw_list '1'
+	option chn_list 'direct'
 	option tcp_proxy_mode 'proxy'
 	option udp_proxy_mode 'proxy'
-	option localhost_tcp_proxy_mode 'default'
-	option localhost_udp_proxy_mode 'default'
-	option acl_enable '0'
-	option close_log_tcp '0'
-	option close_log_udp '0'
-	option loglevel 'error'
-	option trojan_loglevel '4'
-	option dns_shunt 'smartdns'
-	option filter_proxy_ipv6 '1'
-	option tcp_node 'u1m9RmKj'
-	option chn_list 'direct'
-	option group_domestic 'china'
-	list smartdns_remote_dns 'tcp://8.8.4.4'
-	list smartdns_remote_dns 'tcp://1.1.1.1'
-	list smartdns_remote_dns 'https://8.8.4.4/dns-query'
-	list smartdns_remote_dns 'https://1.1.1.1/dns-query'
-	list smartdns_remote_dns 'tls://8.8.8.8'
-	list smartdns_remote_dns 'tls://1.1.1.1'
 	option localhost_proxy '1'
 	option client_proxy '1'
+	option acl_enable '0'
 	option log_tcp '1'
 	option log_udp '1'
+	option loglevel 'error'
+	option trojan_loglevel '4'
 
 config global_haproxy
 	option balancing_enable '0'
@@ -41,18 +38,16 @@ config global_forwarding
 	option tcp_no_redir_ports 'disable'
 	option udp_no_redir_ports 'disable'
 	option tcp_proxy_drop_ports 'disable'
-	option udp_proxy_drop_ports '80,443'
+	option udp_proxy_drop_ports '443'
 	option tcp_redir_ports '22,25,53,143,465,587,853,993,995,80,443'
 	option udp_redir_ports '1:65535'
-	option accept_icmp '1'
-	option use_nft '1'
-	option ipv6_tproxy '1'
-	option accept_icmpv6 '1'
-	option tcp_proxy_way 'tproxy'
+	option accept_icmp '0'
+	option use_nft '0'
+	option tcp_proxy_way 'redirect'
+	option ipv6_tproxy '0'
 
 config global_xray
-	option fragment '0'
-	option sniffing_override_dest '1'
+	option sniffing_override_dest '0'
 
 config global_singbox
 	option sniff_override_destination '0'
@@ -62,8 +57,8 @@ config global_singbox
 	option geosite_url 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.db'
 
 config global_other
-	option nodes_ping 'auto_ping tcping'
-	option auto_detection_time '0'
+	option auto_detection_time 'tcping'
+	option show_node_info '0'
 
 config global_rules
 	option auto_update '0'
@@ -85,8 +80,6 @@ config global_rules
 config global_app
 	option singbox_file '/usr/bin/sing-box'
 	option xray_file '/usr/bin/xray'
-	option trojan_go_file '/usr/bin/trojan-go'
-	option brook_file '/usr/bin/brook'
 	option hysteria_file '/usr/bin/hysteria'
 	option chinadns_ng '/usr/bin/chinadns-ng'
 
@@ -96,19 +89,26 @@ config global_subscribe
 	list filter_discard_list '剩余流量'
 	list filter_discard_list 'QQ群'
 	list filter_discard_list '官网'
-	option ss_aead_type 'shadowsocks-rust'
-	option trojan_type 'trojan-plus'
-	option vmess_type 'xray'
-	option vless_type 'xray'
-	option hysteria2_type 'hysteria2'
+
+config nodes 'myshunt'
+	option remarks '分流总节点'
+	option type 'Xray'
+	option protocol '_shunt'
+	option DirectGame '_direct'
+	option ProxyGame '_default'
+	option Proxy '_default'
+	option Netflix '_default'
+	option OpenAI '_default'
+	option Direct '_direct'
+	option default_node 'nil'
+	option domainStrategy 'IPOnDemand'
 
 config shunt_rules 'DirectGame'
 	option remarks 'DirectGame'
 	option domain_list 'api.steampowered.com
 regexp:\.cm.steampowered.com$
 regexp:\.steamserver.net$
-geosite:category-games@cn
-'
+geosite:category-games@cn'
 	option ip_list '103.10.124.0/24
 103.10.125.0/24
 103.28.54.0/24
@@ -159,8 +159,7 @@ geosite:category-games@cn
 config shunt_rules 'ProxyGame'
 	option remarks 'ProxyGame'
 	option domain_list 'geosite:category-games
-domain:store.steampowered.com
-'
+domain:store.steampowered.com'
 
 config shunt_rules 'OpenAI'
 	option remarks 'OpenAI'
@@ -201,22 +200,12 @@ config shunt_rules 'Direct'
 	option remarks 'Direct'
 	option domain_list 'geosite:cn'
 	option ip_list '223.5.5.5/32
+223.6.6.6/32
 119.29.29.29/32
 180.76.76.76/32
 114.114.114.114/32
+114.114.115.115/32
+1.12.12.12/32
+120.53.53.53/32
 geoip:cn
 geoip:private'
-
-config global_xray
-	option sniffing '1'
-	option route_only '0'
-	option fragment '0'
-
-config global_singbox
-	option sniff_override_destination '1'
-	option geoip_path '/tmp/singbox/geoip.db'
-	option geoip_url 'https://github.com/SagerNet/sing-geoip/releases/latest/download/geoip.db'
-	option geosite_path '/tmp/singbox/geosite.db'
-	option geosite_url 'https://github.com/SagerNet/sing-geosite/releases/latest/download/geosite.db'
-
-

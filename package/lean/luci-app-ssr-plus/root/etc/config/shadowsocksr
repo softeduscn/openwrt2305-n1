@@ -17,7 +17,7 @@ config global
 	option adblock '0'
 	option udp_relay_server 'same'
 	option pdnsd_enable '0'
-	option global_server 'cfg074a8f'
+	option global_server 'nil'
 
 config access_control
 	option lan_ac_mode '0'
