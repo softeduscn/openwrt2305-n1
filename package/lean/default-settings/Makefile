@@ -18,7 +18,7 @@ define Package/default-settings
   CATEGORY:=LuCI
   TITLE:=LuCI support for Default Settings
   PKGARCH:=all
-  DEPENDS:=+luci-base +luci +@LUCI_LANG_zh-cn +@LUCI_LANG_zh_Hans
+  DEPENDS:=+luci-base +@LUCI_LANG_zh_Hans +@LUCI_LANG_en +automount +ipv6helper +perl +perl-http-date +perlbase-getopt +perlbase-time +perlbase-unicode +perlbase-utf8 +blkid +fdisk +lsblk +parted +attr +btrfs-progs +chattr +dosfstools +e2fsprogs +f2fs-tools +f2fsck +lsattr +mkf2fs +xfs-fsck +xfs-mkfs +bsdtar +pigz +gawk +getopt +losetup +tar +uuidgen
 endef
 
 define Package/default-settings/description
