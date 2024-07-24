@@ -54,6 +54,7 @@ syspid=$(cat /tmp/chkvpn.pid)
 syspid=$((syspid+1))
 echo $syspid > /tmp/chkvpn.pid
 chknum=0
+chksys=0
 while [ "1" == "1" ]; do
 	chknum=$((chknum+1))
 	[ ! -f /tmp/test.chkvpn ] && touch /tmp/test.chkvpn
@@ -74,8 +75,10 @@ while [ "1" == "1" ]; do
 				$APP_PATH/$progsh &
 				;;
 			1)
-				if [ "$arg" == "sysmonitor" ] && [ "$chknum" == 60 ]; then
+				#if [ "$arg" == "sysmonitor" ] && [ "$chknum" == 60 ]; then
+				if [ "$chknum" -ge 60 ]; then
 					chknum=0
+					chksys=0
 					if [ ! -f /tmp/test.$i ]; then	
 						killall $progsh
 					else
@@ -84,8 +87,12 @@ while [ "1" == "1" ]; do
 				fi
 				;;
 			*)
-				killall $progsh
-				echo 0 > $progpid
+				chksys=$((chksys+1))
+				if [ "$chksys" -ge 15 ]; then
+					killall $progsh
+					echo 0 > $progpid
+					chksys=0
+				fi
 				;;
 		esac
 	done
