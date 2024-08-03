@@ -16,10 +16,6 @@ config sysmonitor 'sysmonitor'
 	option nextvpntime '5'
 	option passwall '1'
 	option firmware 'https://github.com/softeduscn/openwrt2305-n1/releases/download/ARMv8/openwrt_s905d_n1.img.gz'
-	list dnslist '119.29.29.29'
-	list dnslist '180.76.76.76'
-	list dnslist '114.114.115.115'
-	list dnslist '223.5.5.5'
 
 config host_list
 	option hostname 'MAST'
