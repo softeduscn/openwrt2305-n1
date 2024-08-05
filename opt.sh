@@ -11,7 +11,7 @@
 mkdir opt
 git clone https://github.com/unifreq/openwrt_packit opt/openwrt_packit
 kout='opt/openwrt_packit'
-kversion='5.15.164'
+kversion='6.6.44'
 krelease=''
 kauthor='ophub'
 if [ "$kauthor" == 'flippy' ];then
