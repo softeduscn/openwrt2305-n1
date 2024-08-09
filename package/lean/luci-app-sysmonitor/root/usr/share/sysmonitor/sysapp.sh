@@ -68,14 +68,14 @@ firstrun(){
 	[ -f /usr/share/passwall/test.sh ] && cp /usr/share/passwall/test.sh $APP_PATH
 	cat /etc/config/passwall|grep "config nodes"|cut -d"'" -f2 > /tmp/goodnode
 	touch /tmp/nodeinfo
-#	nodes=$(cat /etc/config/passwall|grep "config nodes"|cut -d"'" -f2)
-#	echo '' >/tmp/nodeinfo
-#	for i in $nodes
-#	do
-#		vpnname=$(uci get passwall.$i.type)'='$(uci get passwall.$i.remarks)
-#		echo '204:0.0 '$i' '$vpnname>> /tmp/nodeinfo
-#	done
-#	sed -i '/^$/d' /tmp/nodeinfo
+	nodes=$(cat /etc/config/passwall|grep "config nodes"|cut -d"'" -f2)
+	echo '' >/tmp/nodeinfo
+	for i in $nodes
+	do
+		vpnname=$(uci get passwall.$i.type)'='$(uci get passwall.$i.remarks)
+		echo '204:0.0 '$i' '$vpnname>> /tmp/nodeinfo
+	done
+	sed -i '/^$/d' /tmp/nodeinfo
 	sysdir='/etc/sysmonitor'
 	destdir=''
 	mvdir $sysdir $destdir
